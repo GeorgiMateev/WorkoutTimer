@@ -6,7 +6,7 @@ define(["jquery", "backbone", "models/workoutModel"],
             },
 
             events: {
-                "click #submitFormButton": function () { console.log("save button clicked"); this.trigger("submitForm") }
+                "click #submitFormButton": function () { console.log("save button clicked"); this.submitForm() }
             },
 
             render: function () {
@@ -17,17 +17,18 @@ define(["jquery", "backbone", "models/workoutModel"],
                 return this;
             },
 
-            submitForm: function (successCB) {
+            submitForm: function () {
                 console.log("submit form method called");
                 var attributes = {
                     "Name": this.$("#nameTextBox").val(),
                     "Description": this.$("#descriptionTextBox").val()
                 }
-
+                $.mobile.loading("show");
                 this.model.save(attributes, {
                     success: function (model, insertID, options) {
                         console.log("save success");
-                        successCB(model, insertID, options);
+                        $.mobile.loading("hide");
+                        window.app_router.navigate("workoutDetails?" + model.get("_id"), { trigger: true, replace: true });
                     }
                 });
             }

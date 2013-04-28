@@ -19,8 +19,6 @@ define(["jquery", "backbone", "models/workoutModel", "collections/workoutsCollec
 	                model: new WorkoutModel()
 	            });
 
-	            this.workoutFormView.on("submitForm", function () { self.saveWorkout() });
-
 	            Backbone.history.start();
 	        },
 
@@ -48,15 +46,6 @@ define(["jquery", "backbone", "models/workoutModel", "collections/workoutsCollec
 	        createWorkout: function () {
 	            this.workoutFormView.model = new WorkoutModel();
 	            $.mobile.changePage("#workout-form", { reverse: false, changeHash: false });
-	        },
-
-	        saveWorkout: function () {
-	            console.log("save workout method in the router");
-	            $.mobile.loading("show");
-	            var self = this;
-	            this.workoutFormView.submitForm(function (model, insertId, options) {
-	                self.navigate("workoutDetails?" + model.get("_id"), { trigger: true, replace: true });
-	            });
 	        },
 
 	        workoutDetails: function (id) {

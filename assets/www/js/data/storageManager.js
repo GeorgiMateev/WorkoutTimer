@@ -6,7 +6,6 @@ define(["jquery"],
         StorageManager.prototype = {
             getAllWorkouts: function (successCB, errorCB) {
                 var db = window.sqlitePlugin.openDatabase({ name: "workouts" });
-                console.log("db opened");
 
                 db.transaction(
                     function (tx) {
@@ -17,13 +16,11 @@ define(["jquery"],
                             for (var i = 0; i < len; i++) {
                                 workouts[i] = results.rows.item(i);
                             }
-                            console.log("transaction success");
                             successCB(workouts);
 
                         });
                     },
                     function (tx, error) {
-                        console.log("transaction error");
                         errorCB(error);
                     }
                 );
@@ -33,7 +30,6 @@ define(["jquery"],
 
             getWorkout: function (id, successCB, errorCB) {
                 var db = window.sqlitePlugin.openDatabase({ name: "workouts" });
-                console.log("db opened");
 
                 db.transaction(
                     function (tx) {
@@ -46,12 +42,10 @@ define(["jquery"],
 
                             var workout = results.rows.item(0);
 
-                            console.log("transaction success");
                             successCB(workout);
                         });
                     },
                     function (tx, error) {
-                        console.log("transaction error");
                         errorCB(error);
                     }
                 );
@@ -69,22 +63,35 @@ define(["jquery"],
             createWorkout: function (model, successCB, errorCB) {
                 //setTimeout(function () { successCB(2) }, 5000);
                 var db = window.sqlitePlugin.openDatabase({ name: "workouts" });
-                console.log("db opened");
 
                 db.transaction(
                     function (tx) {
                         var sql = "INSERT INTO Workouts (Name, Description) VALUES('" + model.Name + "','" + model.Description + "')";
                         tx.executeSql(sql, [], function (tx, results) {
-                            console.log("ierted wow id: "+ results.insertId);
                             successCB(results.insertId);
                         });
                     },
                     function (tx, error) {
-                        console.log("transaction error");
                         errorCB(error);
                     }
                 );
 
+            },
+
+            updateWorkout: function (model, successCB, errorCB) {
+                var db = window.sqlitePlugin.openDatabase({ name: "workouts" });
+
+                db.transaction(
+                    function (tx) {
+                        var sql = "UPDATE Workouts SET Name = '" + model.Name + "', Description = '" + model.Description + "' WHERE _id = " + model._id;
+                        tx.executeSql(sql, [], function (tx, results) {
+                            successCB(model._id);
+                        });
+                    },
+                    function (tx, error) {
+                        errorCB(error);
+                    }
+                );
             }
         };
 

@@ -39,7 +39,7 @@
         <script type="text/template" id="workoutDetailsTemplate">
             <div data-role="header">
 	            <h1><%= model.Name %></h1>
-	            <a href="#" data-role="button">Edit</a>
+	            <a href="#editWorkout?<%= model._id %>" data-role="button">Edit</a>
 	        </div>
             <div data-role="content">
                 <p><%= model._id %></p>
@@ -56,9 +56,9 @@
             <div data-role="content">
                 <form>
                     <label for="nameTextBox">Name</label>
-                    <input id="nameTextBox" type="text" />
+                    <input id="nameTextBox" type="text" value="<%= model.Name %>"/>
                     <label for="descriptionTextBox">Description</label>
-                    <input id="descriptionTextBox" type="text" />
+                    <input id="descriptionTextBox" type="text" value="<%= model.Description %>"/>
                 </form>
             </div>
             <div data-role="footer">

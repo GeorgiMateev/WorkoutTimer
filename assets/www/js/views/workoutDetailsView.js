@@ -7,8 +7,6 @@ define(["jquery", "backbone", "models/workoutModel"],
                 }
             },
             render: function () {
-                console.log("render workoutDetailsView");
-
                 this.template = _.template($("script#workoutDetailsTemplate").html(), { "model": this.model.toJSON() });
 
                 this.$el.html(this.template);

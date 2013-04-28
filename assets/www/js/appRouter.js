@@ -26,14 +26,13 @@ define(["jquery", "backbone", "models/workoutModel", "collections/workoutsCollec
 	            "createWorkout": "createWorkout",
 	            "workoutDetails?:id": "workoutDetails",
 	            "createWorkout": "createWorkout",
-	            "editWorkout": "editWorkout",
+	            "editWorkout?:id": "editWorkout",
 	            "set": "showSet",
 	            "": "home"
 	        },
 
 	        home: function () {
 	            var workoutsView = this["workoutsView"];
-	            console.log("navigate to home");
 
 	            $.mobile.loading("show");
 
@@ -45,17 +44,34 @@ define(["jquery", "backbone", "models/workoutModel", "collections/workoutsCollec
 
 	        createWorkout: function () {
 	            this.workoutFormView.model = new WorkoutModel();
+	            this.workoutFormView.render();
 	            $.mobile.changePage("#workout-form", { reverse: false, changeHash: false });
+
+	            //restyle the widgets in the template
+	            $("#workout-form").trigger("pagecreate");
 	        },
 
 	        workoutDetails: function (id) {
-	            console.log("show details for workout with id: " + id);
-
 	            $.mobile.loading("show");
 
 	            this.workoutDetailsView.model.fetch({ "id": id }).done(function () {
 	                $.mobile.changePage("#workout-details", { reverse: false, changeHash: false });
+
+	                //restyle the widgets in the template
 	                $("#workout-details").trigger("pagecreate");
+	                $.mobile.loading("hide");
+	            });
+	        },
+
+	        editWorkout: function (id) {
+	            $.mobile.loading("show");
+	            var self = this;
+	            this.workoutFormView.model.fetch({ "id": id }).done(function () {
+	                self.workoutFormView.render();
+	                $.mobile.changePage("#workout-form", { reverse: false, changeHash: false });
+
+	                //restyle the widgets in the template
+	                $("#workout-form").trigger("pagecreate");
 	                $.mobile.loading("hide");
 	            });
 	        },

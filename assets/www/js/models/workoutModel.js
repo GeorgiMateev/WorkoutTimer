@@ -4,6 +4,8 @@ define(["jquery", "backbone", "data/storageManager"],
 	        idAttribute: "_id",
 
 	        sync: function (method, model, options) {
+	            console.log("sync with method: " + method);
+
 	            var manager = new StorageManager();
 	            var deferred = $.Deferred();
 	            var self = this;
@@ -17,9 +19,7 @@ define(["jquery", "backbone", "data/storageManager"],
                     function (error) {
                         alert(error);
                         deferred.resolve();
-                    });
-
-	                return deferred;
+                    });	                
 	            }
 
 	            if (method == "create") {
@@ -33,9 +33,21 @@ define(["jquery", "backbone", "data/storageManager"],
                         alert(error);
                         deferred.resolve();
                     });
-
-	                return deferred;
 	            }
+
+	            if (method == "update") {
+	                manager.updateWorkout(model.toJSON(),
+                    function (updateId) {
+                        options.success(self, updateId, options);
+                        deferred.resolve();
+                    },
+                    function (error) {
+                        alert(error);
+                        deferred.resolve();
+                    });
+	            }
+
+                return deferred;
 	        }
 	    });
 

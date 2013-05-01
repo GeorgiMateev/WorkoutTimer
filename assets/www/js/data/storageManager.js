@@ -92,6 +92,22 @@ define(["jquery"],
                         errorCB(error);
                     }
                 );
+            },
+
+            deleteWorkout: function(id, successCB, errorCB){
+                var db = window.sqlitePlugin.openDatabase({ name: "workouts" });
+
+                db.transaction(
+                    function (tx) {
+                        var sql = "DELETE FROM Workouts WHERE _id = " + id;
+                        tx.executeSql(sql, [], function (tx, results) {
+                            successCB(id);
+                        });
+                    },
+                    function (tx, error) {
+                        errorCB(error);
+                    }
+                );
             }
         };
 

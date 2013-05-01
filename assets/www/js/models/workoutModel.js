@@ -19,7 +19,7 @@ define(["jquery", "backbone", "data/storageManager"],
                     function (error) {
                         alert(error);
                         deferred.resolve();
-                    });	                
+                    });
 	            }
 
 	            if (method == "create") {
@@ -47,7 +47,19 @@ define(["jquery", "backbone", "data/storageManager"],
                     });
 	            }
 
-                return deferred;
+	            if (method == "delete") {
+	                manager.deleteWorkout(options.id,
+                    function (result) {
+                        options.success(self, result, options);
+                        deferred.resolve();
+                    },
+                    function (error) {
+                        alert(error);
+                        deferred.resolve();
+                    });
+	            }
+
+	            return deferred;
 	        }
 	    });
 

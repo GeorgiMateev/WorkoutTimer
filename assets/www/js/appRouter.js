@@ -1,5 +1,15 @@
-define(["jquery", "backbone", "models/workoutModel", "collections/workoutsCollection", "views/workoutsView", "views/workoutDetailsView", "views/workoutFormView", "jquerymobile"],
-	function ($, Backbone, WorkoutModel, WorkoutsCollection, WorkoutsView, WorkoutDetailsView, WorkoutFormView) {
+define(["jquery",
+    "backbone",
+    "models/workoutModel",
+    "models/setModel",
+    "collections/workoutsCollection",
+    "views/workoutsView",
+    "views/workoutDetailsView",
+    "views/workoutFormView",
+    "views/setFormView",
+    "jquerymobile"],
+
+	function ($, Backbone, WorkoutModel, SetModel, WorkoutsCollection, WorkoutsView, WorkoutDetailsView, WorkoutFormView, SetFormView) {
 	    var AppRouter = Backbone.Router.extend({
 	        initialize: function () {
 	            var self = this;
@@ -19,16 +29,20 @@ define(["jquery", "backbone", "models/workoutModel", "collections/workoutsCollec
 	                model: new WorkoutModel()
 	            });
 
+	            this.setFormView = new SetFormView({
+	                el: "#set-form",
+	                model: new SetModel()
+	            });
+
 	            Backbone.history.start();
 	        },
 
 	        routes: {
-	            "createWorkout": "createWorkout",
+	            "": "home",
 	            "workoutDetails?:id": "workoutDetails",
 	            "createWorkout": "createWorkout",
 	            "editWorkout?:id": "editWorkout",
-	            "set": "showSet",
-	            "": "home"
+	            "createSet?:id": "createSet"
 	        },
 
 	        home: function () {
@@ -44,6 +58,7 @@ define(["jquery", "backbone", "models/workoutModel", "collections/workoutsCollec
 
 	        createWorkout: function () {
 	            this.workoutFormView.model = new WorkoutModel();
+
 	            this.workoutFormView.render();
 	            $.mobile.changePage("#workout-form", { reverse: false, changeHash: false });
 
@@ -53,14 +68,21 @@ define(["jquery", "backbone", "models/workoutModel", "collections/workoutsCollec
 
 	        workoutDetails: function (id) {
 	            $.mobile.loading("show");
+	            var self = this;
 
-	            this.workoutDetailsView.model.fetch({ "id": id }).done(function () {
-	                $.mobile.changePage("#workout-details", { reverse: false, changeHash: false });
+	            this.workoutDetailsView.model.fetch({ "id": id })
+                    .done(function () {
+                        self.workoutDetailsView.model.setsCollection.fetch({"workoutId": id})
+                            .done(function () {
+                                self.workoutDetailsView.render();
+                                console.log("sets rendered");
+	                            $.mobile.changePage("#workout-details", { reverse: false, changeHash: false });
 
-	                //restyle the widgets in the template
-	                $("#workout-details").trigger("pagecreate");
-	                $.mobile.loading("hide");
-	            });
+	                            //restyle the widgets in the template
+	                            $("#workout-details").trigger("pagecreate");
+	                            $.mobile.loading("hide");
+	                        });
+	                });
 	        },
 
 	        editWorkout: function (id) {
@@ -76,8 +98,14 @@ define(["jquery", "backbone", "models/workoutModel", "collections/workoutsCollec
 	            });
 	        },
 
-	        showSet: function () {
-	            $.mobile.changePage("#set-view", { reverse: false, changeHash: false });
+	        createSet: function (id) {
+	            this.setFormView.model = new SetModel({"Workout_id": id});
+
+	            this.setFormView.render();
+	            $.mobile.changePage("#set-form", { reverse: false, changeHash: false });
+
+	            //restyle the widgets in the template
+	            $("#set-form").trigger("pagecreate");	            
 	        }
 	    });
 

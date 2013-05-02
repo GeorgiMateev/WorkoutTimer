@@ -1,6 +1,10 @@
-define(["jquery", "backbone", "data/storageManager"],
-	function ($, Backbone, StorageManager) {
+define(["jquery", "backbone", "collections/setsCollection", "data/storageManager"],
+	function ($, Backbone, SetsCollection, StorageManager) {
 	    var WorkoutModel = Backbone.Model.extend({
+	        initialize: function () {
+	            this.setsCollection = new SetsCollection([], {});
+	        },
+
 	        idAttribute: "_id",
 
 	        sync: function (method, model, options) {

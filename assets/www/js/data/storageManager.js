@@ -108,6 +108,51 @@ define(["jquery"],
                         errorCB(error);
                     }
                 );
+            },
+
+            createSet: function (model, successCB, errorCB) {
+                var db = window.sqlitePlugin.openDatabase({ name: "workouts" });
+
+                db.transaction(
+                    function (tx) {
+                        var sql = "INSERT INTO Sets (Name, Description, Duration, Type, Workout_id) VALUES('" +
+                            model.Name + "','" +
+                            model.Description + "','" +
+                            model.Duration + "','" +
+                            model.Type + "','" +
+                            model.Workout_id + "')";
+
+                        tx.executeSql(sql, [], function (tx, results) {
+                            successCB(results.insertId);
+                        });
+                    },
+                    function (tx, error) {
+                        errorCB(error);
+                    }
+                );
+            },
+
+            getAllWorkoutSets: function (workoutId, successCB, errorCB) {
+                var db = window.sqlitePlugin.openDatabase({ name: "workouts" });
+
+                db.transaction(
+                    function (tx) {
+                        var sql = "SELECT * FROM Sets WHERE Workout_id = " + workoutId;
+                        tx.executeSql(sql, [], function (tx, results) {
+                            var len = results.rows.length;
+                            var sets = [];
+                            for (var i = 0; i < len; i++) {
+                                sets[i] = results.rows.item(i);
+                            }
+                            successCB(sets);
+                        });
+                    },
+                    function (tx, error) {
+                        errorCB(error);
+                    }
+                );
+                //var s = [{ "_id": 1, "Name": "ime", "Workout_id": workoutId, "Duration": 23 }];
+                //successCB(s);
             }
         };
 

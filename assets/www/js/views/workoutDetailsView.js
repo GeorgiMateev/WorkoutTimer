@@ -26,7 +26,12 @@ define(["jquery", "backbone", "models/workoutModel"],
             },
 
             render: function () {
-                this.template = _.template($("script#workoutDetailsTemplate").html(), { "model": this.model.toJSON() });
+                var jsonModel = this.model.toJSON();
+                var jsonSets = [];
+
+                if(this.model.setsCollection) jsonSets = this.model.setsCollection.toJSON();
+
+                this.template = _.template($("script#workoutDetailsTemplate").html(), { "model": jsonModel, "sets": jsonSets});
 
                 this.$el.html(this.template);
 

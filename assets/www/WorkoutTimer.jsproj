@@ -57,6 +57,7 @@
     <Content Include="index.html" />
     <Content Include="js\application.js" />
     <Content Include="js\appRouter.js" />
+    <Content Include="js\collections\setsCollection.js" />
     <Content Include="js\collections\workoutsCollection.js" />
     <Content Include="js\data\storageManager.js" />
     <Content Include="js\libs\backbone.js" />
@@ -67,7 +68,9 @@
     <Content Include="js\libs\SQLitePlugin.js" />
     <Content Include="js\libs\underscore.js" />
     <Content Include="js\mobile.js" />
+    <Content Include="js\models\setModel.js" />
     <Content Include="js\models\workoutModel.js" />
+    <Content Include="js\views\setFormView.js" />
     <Content Include="js\views\workoutDetailsView.js" />
     <Content Include="js\views\workoutFormView.js" />
     <Content Include="js\views\workoutsView.js" />
@@ -92,9 +95,6 @@
     <Content Include="spec\lib\jasmine-1.2.0\jasmine.css" />
     <Content Include="spec\lib\jasmine-1.2.0\jasmine.js" />
     <Content Include="spec\lib\jasmine-1.2.0\MIT.LICENSE" />
-    <Content Include="views\rest.html" />
-    <Content Include="views\set.html" />
-    <Content Include="views\workout.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
   <!-- To modify your build process, add your task inside one of the targets below then uncomment

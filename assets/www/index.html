@@ -99,6 +99,8 @@
                     <label for="setDuration">Duration</label>
                     <input id="setDuration" type="text" value="<%= model.Duration %>"/>
 
+                    <% $('#setTypeChoice').val(model.Type) %>
+
                     <select id="setTypeChoise">
                         <option value="set">Set</option>
                         <option value="rest">Rest</option>

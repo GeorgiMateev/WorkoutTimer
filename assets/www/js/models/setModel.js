@@ -23,8 +23,32 @@
                     });
 	            }
 
+	            if (method == "update") {
+	                manager.updateSet(model.toJSON(),
+                    function (updateId) {
+                        options.success(self, updateId, options);
+                        deferred.resolve();
+                    },
+                    function (error) {
+                        alert(error);
+                        deferred.resolve();
+                    });
+	            }
+
 	            if (method == "read") {
 	                manager.getSet(options.id,
+                        function (result) {
+                            options.success(self, result, options);
+                            deferred.resolve();
+                        },
+                        function (error) {
+                            alert(error);
+                            deferred.resolve();
+                        });
+	            }
+
+	            if (method == "delete") {
+	                manager.deleteSet(options.id,
                         function (result) {
                             options.success(self, result, options);
                             deferred.resolve();

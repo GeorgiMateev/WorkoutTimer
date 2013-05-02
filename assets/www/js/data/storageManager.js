@@ -132,6 +132,26 @@ define(["jquery"],
                 );
             },
 
+            updateSet: function (model, successCB, errorCB) {
+                var db = window.sqlitePlugin.openDatabase({ name: "workouts" });
+
+                db.transaction(
+                    function (tx) {
+                        var sql = "UPDATE Sets SET Name = '" + model.Name +
+                            "', Description = '" + model.Description +
+                            "', Duration = '" + model.Duration +
+                            "', Type = '" + model.Type +
+                            "' WHERE _id = " + model._id;
+                        tx.executeSql(sql, [], function (tx, results) {
+                            successCB(model._id);
+                        });
+                    },
+                    function (tx, error) {
+                        errorCB(error);
+                    }
+                );
+            },
+
             getAllWorkoutSets: function (workoutId, successCB, errorCB) {
                 var db = window.sqlitePlugin.openDatabase({ name: "workouts" });
 
@@ -165,7 +185,7 @@ define(["jquery"],
                         tx.executeSql(sql, [], function (tx, results) {
                             var len = results.rows.length;
                             if (len == 0) {
-                                alert("Set with id: " + id + "not found!");
+                                alert("Set with id: " + setId + "not found!");
                             }
 
                             var set = results.rows.item(0);
@@ -173,7 +193,23 @@ define(["jquery"],
                             successCB(set);
                         });
                     },
-                    function (error) {
+                    function (tx, error) {
+                        errorCB(error);
+                    }
+                );
+            },
+
+            deleteSet: function (setId, successCB, errorCB) {
+                var db = window.sqlitePlugin.openDatabase({ name: "workouts" });
+
+                db.transaction(
+                    function (tx) {
+                        var sql = "DELETE FROM Sets WHERE _id = " + setId;
+                        tx.executeSql(sql, [], function (tx, results) {
+                            successCB(setId);
+                        });
+                    },
+                    function (tx, error) {
                         errorCB(error);
                     }
                 );

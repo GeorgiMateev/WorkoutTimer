@@ -12,7 +12,7 @@
             },
 
             render: function () {                
-                this.template = _.template($("script#setFormTemplate").html(), { "model": this.model.toJSON()});
+                this.template = _.template($("script#setFormTemplate").html(), { "model": this.model.toJSON(), "$": $});
 
                 this.$el.html(this.template);
 
@@ -22,7 +22,9 @@
             submitForm: function () {
                 var attributes = {
                     "Name": this.$("#setNameTextBox").val(),
-                    "Description": this.$("#setDescriptionTextBox").val()
+                    "Description": this.$("#setDescriptionTextBox").val(),
+                    "Duration": this.$("#setDuration").val(),
+                    "Type": this.$("#setTypeChoise").val()
                 }
                 $.mobile.loading("show");
                 this.model.save(attributes, {

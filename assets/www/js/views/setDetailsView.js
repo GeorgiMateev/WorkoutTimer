@@ -11,7 +11,20 @@
                 "click #deleteSetButton": function () { this.deleteSet() }
             },
 
-            deleteWorkout: function () { },
+            deleteSet: function () {
+                $.mobile.loading("show");
+
+                var id = this.model.get("_id");
+                var workoutId = this.model.get("Workout_id");
+
+                this.model.destroy({
+                    success: function (model, deleteId, options) {
+                        $.mobile.loading("hide");
+                        window.app_router.navigate("#workoutDetails?" + workoutId, { trigger: true, replace: true });
+                    },
+                    "id": id
+                });
+            },
 
             render: function () {
                 var jsonModel = this.model.toJSON();

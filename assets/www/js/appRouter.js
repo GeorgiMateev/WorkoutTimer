@@ -49,7 +49,8 @@ define(["jquery",
 	            "createWorkout": "createWorkout",
 	            "editWorkout?:id": "editWorkout",
 	            "createSet?:id": "createSet",
-                "setDetails?:id": "setDetails"
+	            "setDetails?:id": "setDetails",
+                "editSet?:id": "editSet"
 	        },
 
 	        home: function () {
@@ -122,6 +123,19 @@ define(["jquery",
 
 	                //restyle the widgets in the template
 	                $("#set-details").trigger("pagecreate");
+	                $.mobile.loading("hide");
+	            });
+	        },
+
+	        editSet: function (id) {
+	            $.mobile.loading("show");
+	            var self = this;
+	            this.setFormView.model.fetch({ "id": id }).done(function () {
+	                self.setFormView.render();
+	                $.mobile.changePage("#set-form", { reverse: false, changeHash: false });
+
+	                //restyle the widgets in the template
+	                $("#set-form").trigger("pagecreate");
 	                $.mobile.loading("hide");
 	            });
 	        }

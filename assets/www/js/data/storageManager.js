@@ -153,6 +153,30 @@ define(["jquery"],
                 );
                 //var s = [{ "_id": 1, "Name": "ime", "Workout_id": workoutId, "Duration": 23 }];
                 //successCB(s);
+            },
+
+            getSet: function (setId, successCB, errorCB) {
+                var db = window.sqlitePlugin.openDatabase({ name: "workouts" });
+
+                db.transaction(
+                    function (tx) {
+                        var sql = "SELECT * FROM Sets WHERE _id =" + setId;
+
+                        tx.executeSql(sql, [], function (tx, results) {
+                            var len = results.rows.length;
+                            if (len == 0) {
+                                alert("Set with id: " + id + "not found!");
+                            }
+
+                            var set = results.rows.item(0);
+
+                            successCB(set);
+                        });
+                    },
+                    function (error) {
+                        errorCB(error);
+                    }
+                );
             }
         };
 

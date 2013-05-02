@@ -7,9 +7,10 @@ define(["jquery",
     "views/workoutDetailsView",
     "views/workoutFormView",
     "views/setFormView",
+    "views/setDetailsView",
     "jquerymobile"],
 
-	function ($, Backbone, WorkoutModel, SetModel, WorkoutsCollection, WorkoutsView, WorkoutDetailsView, WorkoutFormView, SetFormView) {
+	function ($, Backbone, WorkoutModel, SetModel, WorkoutsCollection, WorkoutsView, WorkoutDetailsView, WorkoutFormView, SetFormView, SetDetailsView) {
 	    var AppRouter = Backbone.Router.extend({
 	        initialize: function () {
 	            var self = this;
@@ -34,6 +35,11 @@ define(["jquery",
 	                model: new SetModel()
 	            });
 
+	            this.setDetailsView = new SetDetailsView({
+	                el: "#set-details",
+	                model: new SetModel()
+	            });
+
 	            Backbone.history.start();
 	        },
 
@@ -42,7 +48,8 @@ define(["jquery",
 	            "workoutDetails?:id": "workoutDetails",
 	            "createWorkout": "createWorkout",
 	            "editWorkout?:id": "editWorkout",
-	            "createSet?:id": "createSet"
+	            "createSet?:id": "createSet",
+                "setDetails?:id": "setDetails"
 	        },
 
 	        home: function () {
@@ -75,7 +82,6 @@ define(["jquery",
                         self.workoutDetailsView.model.setsCollection.fetch({"workoutId": id})
                             .done(function () {
                                 self.workoutDetailsView.render();
-                                console.log("sets rendered");
 	                            $.mobile.changePage("#workout-details", { reverse: false, changeHash: false });
 
 	                            //restyle the widgets in the template
@@ -106,6 +112,18 @@ define(["jquery",
 
 	            //restyle the widgets in the template
 	            $("#set-form").trigger("pagecreate");	            
+	        },
+
+	        setDetails: function (id) {
+	            $.mobile.loading("show");
+
+	            this.setDetailsView.model.fetch({ "id": id }).done(function () {
+	                $.mobile.changePage("#set-details", { reverse: false, changeHash: false });
+
+	                //restyle the widgets in the template
+	                $("#set-details").trigger("pagecreate");
+	                $.mobile.loading("hide");
+	            });
 	        }
 	    });
 

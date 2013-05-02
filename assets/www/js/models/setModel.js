@@ -23,7 +23,19 @@
                     });
 	            }
 
-	            return deffered;
+	            if (method == "read") {
+	                manager.getSet(options.id,
+                        function (result) {
+                            options.success(self, result, options);
+                            deferred.resolve();
+                        },
+                        function (error) {
+                            alert(error);
+                            deferred.resolve();
+                        });
+	            }
+
+	            return deferred;
 	        }
 	    });
 

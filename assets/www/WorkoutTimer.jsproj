@@ -70,6 +70,7 @@
     <Content Include="js\mobile.js" />
     <Content Include="js\models\setModel.js" />
     <Content Include="js\models\workoutModel.js" />
+    <Content Include="js\views\setDetailsView.js" />
     <Content Include="js\views\setFormView.js" />
     <Content Include="js\views\workoutDetailsView.js" />
     <Content Include="js\views\workoutFormView.js" />

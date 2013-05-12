@@ -59,6 +59,7 @@
     <Content Include="js\appRouter.js" />
     <Content Include="js\collections\setsCollection.js" />
     <Content Include="js\collections\workoutsCollection.js" />
+    <Content Include="js\components\timer.js" />
     <Content Include="js\data\storageManager.js" />
     <Content Include="js\libs\backbone.js" />
     <Content Include="js\libs\cordova-2.4.0.js" />
@@ -69,9 +70,11 @@
     <Content Include="js\libs\underscore.js" />
     <Content Include="js\mobile.js" />
     <Content Include="js\models\setModel.js" />
+    <Content Include="js\models\timerModel.js" />
     <Content Include="js\models\workoutModel.js" />
     <Content Include="js\views\setDetailsView.js" />
     <Content Include="js\views\setFormView.js" />
+    <Content Include="js\views\timerView.js" />
     <Content Include="js\views\workoutDetailsView.js" />
     <Content Include="js\views\workoutFormView.js" />
     <Content Include="js\views\workoutsView.js" />

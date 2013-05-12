@@ -2,15 +2,17 @@ define(["jquery",
     "backbone",
     "models/workoutModel",
     "models/setModel",
+    "models/timerModel",
     "collections/workoutsCollection",
     "views/workoutsView",
     "views/workoutDetailsView",
     "views/workoutFormView",
     "views/setFormView",
     "views/setDetailsView",
+    "views/timerView",
     "jquerymobile"],
 
-	function ($, Backbone, WorkoutModel, SetModel, WorkoutsCollection, WorkoutsView, WorkoutDetailsView, WorkoutFormView, SetFormView, SetDetailsView) {
+	function ($, Backbone, WorkoutModel, SetModel, TimerModel, WorkoutsCollection, WorkoutsView, WorkoutDetailsView, WorkoutFormView, SetFormView, SetDetailsView, TimerView) {
 	    var AppRouter = Backbone.Router.extend({
 	        initialize: function () {
 	            var self = this;
@@ -40,6 +42,11 @@ define(["jquery",
 	                model: new SetModel()
 	            });
 
+	            this.timerView = new TimerView({
+	                el: "#timer-view",
+                    model: new TimerModel()
+	            });
+
 	            Backbone.history.start();
 	        },
 
@@ -50,7 +57,8 @@ define(["jquery",
 	            "editWorkout?:id": "editWorkout",
 	            "createSet?:id": "createSet",
 	            "setDetails?:id": "setDetails",
-                "editSet?:id": "editSet"
+	            "editSet?:id": "editSet",
+                "startWorkout?:id": "startWorkout"
 	        },
 
 	        home: function () {
@@ -137,6 +145,21 @@ define(["jquery",
 	                //restyle the widgets in the template
 	                $("#set-form").trigger("pagecreate");
 	                $.mobile.loading("hide");
+	            });
+	        },
+
+	        startWorkout: function (id) {
+	            $.mobile.loading("show");
+	            var self = this;
+	            this.timerView.model.fetch({ "id": id }).done(function () {
+	                self.timerView.render();
+	                $.mobile.changePage("#timer-view", { reverse: false, changeHash: false });
+
+	                //restyle the widgets in the template
+	                $("#timer-view").trigger("pagecreate");
+	                $.mobile.loading("hide");
+
+	                self.timerView.model.startTimer(true);
 	            });
 	        }
 	    });

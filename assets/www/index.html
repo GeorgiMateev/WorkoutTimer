@@ -32,6 +32,8 @@
             <div id="set-form" data-role="page"></div>
 
             <div id="set-details" data-role="page"></div>
+
+            <div id="timer-view" data-role="page"></div>
         </div>
         <script type="text/template" id="workoutsTemplate">
              <% _.each( collection.toJSON(), function( workout, id ) { %>
@@ -46,6 +48,7 @@
 	            <a href="#editWorkout?<%= model._id %>" data-role="button">Edit</a>
                 <a href="#createSet?<%= model._id %>" data-role="button">New set</a>
                 <a id="deleteWorkoutButton" data-role="button">Delete</a>
+                <a href="#startWorkout?<%= model._id %>" data-role="button">Start</a>
 	        </div>
             <div data-role="content">
                 <p><%= model._id %></p>
@@ -124,6 +127,26 @@
                 <p><%= model.Duration %></p>
 
                 <p><%= model.Type %></p>                
+            </div>
+            <div data-role="footer">
+	        </div>
+        </script>
+        <script type="text/template" id="timerViewTemplate">
+            <div data-role="header">
+	            <h1><%= workout.Name %></h1>
+	            <a data-role="button" id="pauseTimerButton">Pause</a>
+                <a data-role="button" id="resumeTimerButton">Resume</a>
+	        </div>
+            <div data-role="content">
+                <p><%= workout.Description %></p>
+
+                <p><%= set.Name %></p>
+
+                <p><%= set.Duration %></p>
+
+                <p><%= set.Type %></p>
+                
+                <p id="timer-progress"></p>
             </div>
             <div data-role="footer">
 	        </div>

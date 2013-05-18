@@ -29,7 +29,7 @@
 	            }
 	        },
 
-	        startTimer: function (fromBeginning) {
+	        startTimer: function (fromBeginning, notifyCB) {
 	            var self = this;
                 
 	            if (fromBeginning) {
@@ -54,7 +54,9 @@
 	                    self.progressSec = 0;
 	                    self.currentSetIndex++;
 	                    self.timer.reset();
-	                    self.startTimer(false);
+	                    notifyCB().done(function () {
+	                        self.startTimer(false, notifyCB);
+	                    });	                    
 	                }
 	            });
 	            

@@ -84,6 +84,7 @@
     <Content Include="res\icon\android\icon-48-mdpi.png" />
     <Content Include="res\icon\android\icon-72-hdpi.png" />
     <Content Include="res\icon\android\icon-96-xhdpi.png" />
+    <Content Include="res\media\BoxingBell.mp3" />
     <Content Include="res\screen\android\screen-hdpi-landscape.png" />
     <Content Include="res\screen\android\screen-hdpi-portrait.png" />
     <Content Include="res\screen\android\screen-ldpi-landscape.png" />

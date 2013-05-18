@@ -159,7 +159,25 @@ define(["jquery",
 	                $("#timer-view").trigger("pagecreate");
 	                $.mobile.loading("hide");
 
-	                self.timerView.model.startTimer(true);
+                    //retrieve this variables from config or db
+	                var vibrateMs = 2000;
+	                var path = window.app.getPhoneGapFilePath();
+	                var src = path + "res/media/BoxingBell.mp3";
+
+	                console.log(path);
+	                console.log(src);
+
+	                self.timerView.model.startTimer(true, function () {
+	                    var deferred = $.Deferred();
+
+	                    navigator.notification.vibrate(vibrateMs);
+	                    var media = new Media(src, function () {
+	                        deferred.resolve();
+	                    });
+	                    media.play();
+
+	                    return deferred;
+	                });
 	            });
 	        }
 	    });

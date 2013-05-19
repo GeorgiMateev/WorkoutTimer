@@ -3,10 +3,10 @@
         function Timer() {
             this.isRunning = false;
             this.progressSec = 0;
+            this.progressSecInternal = 0;
             this.start = 0;
             this.interval = 0;
             this.callback = null;
-            this.pausedAt = 0;
 
             this.jsTimerObject = null;
 
@@ -28,13 +28,18 @@
             setIntervalInternal: function (intervalSec, callback) {
                 var self = this;
                 this.progressSec++;
+                this.progressSecInternal++;
 
                 var completed = this.progressSec == intervalSec;
                 callback(this.progressSec, completed);
 
                 if (completed) { this.isRunning = false; return; }
 
-                var difference = (new Date().getTime() - this.pausedAt - this.start) - this.progressSec * 1000;
+                var difference = (new Date().getTime() - this.start) - this.progressSecInternal * 1000;
+                //console.log("current: " + new Date().getTime());
+                //console.log("diff: " + difference);
+                //console.log("paused at: " + this.pausedAt);
+                //console.log("started: "+ this.start);
 
                 this.jsTimerObject = window.setTimeout(function () {
                     self.setIntervalInternal(intervalSec, callback)
@@ -48,6 +53,7 @@
 
                 this.isRunning = false;
                 this.progressSec = 0;
+                this.progressSecInternal = 0;
                 this.start = 0;
                 this.interval = 0;
                 this.callback = null;
@@ -60,16 +66,17 @@
                 if (this.jsTimerObject) {
                     window.clearTimeout(this.jsTimerObject);
                 }
-                this.pausedAt = new Date().getTime();
                 this.isRunning = false;
             },
 
             resume: function () {
                 var self = this;
 
+                this.progressSecInternal = 0;
                 this.isRunning = true;
+                this.start = new Date().getTime();
                 this.jsTimerObject = window.setTimeout(function () {
-                    self.setIntervalInternal(self.interval, self.callback)
+                    self.setIntervalInternal(self.interval - self.progressSec, self.callback)
                 }, 1000);
             }
         };

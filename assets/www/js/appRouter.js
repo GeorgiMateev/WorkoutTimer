@@ -52,6 +52,7 @@ define(["jquery",
 
 	        routes: {
 	            "": "home",
+	            "workoutActionsMenu?:id": "workoutActionsMenu",
 	            "workoutDetails?:id": "workoutDetails",
 	            "createWorkout": "createWorkout",
 	            "editWorkout?:id": "editWorkout",
@@ -63,13 +64,25 @@ define(["jquery",
 
 	        home: function () {
 	            var workoutsView = this["workoutsView"];
-
+	            var self = this;
 	            $.mobile.loading("show");
 
 	            workoutsView.collection.fetch().done(function () {
 	                $.mobile.changePage("#workouts-view", { reverse: false, changeHash: false });
-	                $.mobile.loading("hide");
+	                
+	                //$("#workoutsListView").listview("refresh");
+	                $("#workouts-view").trigger("pagecreate");
+
+	                $(".wotActionsMenu").bind({
+	                    popupafterclose: function (event, ui) { self.navigate("", { trigger: false, replace: true }); }                        
+	                });
+
+	                $.mobile.loading("hide");	                
 	            });
+	        },
+
+	        workoutActionsMenu: function (id) {
+	            $("#workoutActionsMenu-" + id).popup("open");
 	        },
 
 	        createWorkout: function () {
@@ -88,15 +101,15 @@ define(["jquery",
 
 	            this.workoutDetailsView.model.fetch({ "id": id })
                     .done(function () {
-                        self.workoutDetailsView.model.setsCollection.fetch({"workoutId": id})
-                            .done(function () {
-                                self.workoutDetailsView.render();
-	                            $.mobile.changePage("#workout-details", { reverse: false, changeHash: false });
+                        self.workoutDetailsView.model.setsCollection.fetch({ "workoutId": id });
+                    })
+                    .done(function () {
+                        self.workoutDetailsView.render();
+	                    $.mobile.changePage("#workout-details", { reverse: false, changeHash: false });
 
-	                            //restyle the widgets in the template
-	                            $("#workout-details").trigger("pagecreate");
-	                            $.mobile.loading("hide");
-	                        });
+	                    //restyle the widgets in the template
+	                    $("#workout-details").trigger("pagecreate");
+	                    $.mobile.loading("hide");
 	                });
 	        },
 

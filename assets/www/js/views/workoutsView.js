@@ -14,7 +14,7 @@ define(["jquery", "backbone", "models/workoutModel"],
             render: function () {
                 this.template = _.template($("script#workoutsTemplate").html(), { "collection": this.collection });
 
-                this.$el.find("#workoutsListView").html(this.template);
+                this.$el.html(this.template);
 
                 return this;
             }

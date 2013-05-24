@@ -45,14 +45,13 @@ define(["jquery",
 	            this.timerView = new TimerView({
 	                el: "#timer-view",
                     model: new TimerModel()
-	            });
+	            });	            
 
 	            Backbone.history.start();
 	        },
 
 	        routes: {
 	            "": "home",
-	            "workoutActionsMenu?:id": "workoutActionsMenu",
 	            "workoutDetails?:id": "workoutDetails",
 	            "createWorkout": "createWorkout",
 	            "editWorkout?:id": "editWorkout",
@@ -73,16 +72,15 @@ define(["jquery",
 	                //$("#workoutsListView").listview("refresh");
 	                $("#workouts-view").trigger("pagecreate");
 
-	                $(".wotActionsMenu").bind({
-	                    popupafterclose: function (event, ui) { self.navigate("", { trigger: false, replace: true }); }                        
+	                $(".wotActionsButton").click(function (event) {
+	                    console.log("actions button clicked");
+	                    var id = $(this).attr('id');
+	                    $("#menu-" + id).popup("option", "positionTo", "#" + id);
+	                    $("#menu-" + id).popup("open", { transition: "slide" });
 	                });
 
 	                $.mobile.loading("hide");	                
 	            });
-	        },
-
-	        workoutActionsMenu: function (id) {
-	            $("#workoutActionsMenu-" + id).popup("open");
 	        },
 
 	        createWorkout: function () {

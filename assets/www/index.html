@@ -36,9 +36,9 @@
                             <li>
                                 <a href="#workoutDetails?<%= workout._id %>"><%= workout.Name %></a>
 
-                                <a href="#workoutActionsMenu?<%= workout._id %>" >Actions menu</a>
+                                <a id="actions-<%= workout._id %>" class="wotActionsButton">Actions menu</a>
 
-                                <div class="wotActionsMenu" data-role="popup" id="workoutActionsMenu-<%= workout._id %>">
+                                <div class="wotActionsMenu" data-role="popup" id="menu-actions-<%= workout._id %>">
                                     <ul data-role="listview">
                                         <li>
                                             <a href="#startWorkout?<%= workout._id %>">Start</a>

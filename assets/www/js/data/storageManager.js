@@ -99,13 +99,16 @@ define(["jquery"],
 
                 db.transaction(
                     function (tx) {
-                        var sql = "DELETE FROM Workouts WHERE _id = " + id;
-                        tx.executeSql(sql, [], function (tx, results) {
-                            successCB(id);
-                        });
+                        var delWOSql = "DELETE FROM Workouts WHERE _id = " + id;
+                        var delSetSql = "DELETE FROM Sets WHERE Workout_id = " + id;
+                        tx.executeSql(delWOSql);
+                        tx.executeSql(delSetSql);
                     },
                     function (tx, error) {
                         errorCB(error);
+                    },
+                    function () {
+                        successCB();
                     }
                 );
             },

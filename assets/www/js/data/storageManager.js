@@ -33,8 +33,8 @@ define(["jquery"],
 
                 db.transaction(
                     function (tx) {
-                        var sql = "SELECT * FROM Workouts WHERE _id=" + id;
-                        tx.executeSql(sql, [], function (tx, results) {
+                        var sql = "SELECT * FROM Workouts WHERE _id=?";
+                        tx.executeSql(sql, [id], function (tx, results) {
                             var len = results.rows.length;
                             if (len == 0) {
                                 alert("Workout with id: " + id + "not found!");
@@ -66,8 +66,8 @@ define(["jquery"],
 
                 db.transaction(
                     function (tx) {
-                        var sql = "INSERT INTO Workouts (Name, Description) VALUES('" + model.Name + "','" + model.Description + "')";
-                        tx.executeSql(sql, [], function (tx, results) {
+                        var sql = "INSERT INTO Workouts (Name, Description) VALUES(?,?)";
+                        tx.executeSql(sql, [model.Name, model.Description], function (tx, results) {
                             successCB(results.insertId);
                         });
                     },
@@ -83,8 +83,8 @@ define(["jquery"],
 
                 db.transaction(
                     function (tx) {
-                        var sql = "UPDATE Workouts SET Name = '" + model.Name + "', Description = '" + model.Description + "' WHERE _id = " + model._id;
-                        tx.executeSql(sql, [], function (tx, results) {
+                        var sql = "UPDATE Workouts SET Name = ?, Description = ? WHERE _id = ?";
+                        tx.executeSql(sql, [model.Name, model.Description, model._id], function (tx, results) {
                             successCB(model._id);
                         });
                     },
@@ -99,10 +99,10 @@ define(["jquery"],
 
                 db.transaction(
                     function (tx) {
-                        var delWOSql = "DELETE FROM Workouts WHERE _id = " + id;
-                        var delSetSql = "DELETE FROM Sets WHERE Workout_id = " + id;
-                        tx.executeSql(delWOSql);
-                        tx.executeSql(delSetSql);
+                        var delWOSql = "DELETE FROM Workouts WHERE _id = ?";
+                        var delSetSql = "DELETE FROM Sets WHERE Workout_id = ?";
+                        tx.executeSql(delWOSql, [id]);
+                        tx.executeSql(delSetSql, [id]);
                     },
                     function (tx, error) {
                         errorCB(error);
@@ -118,14 +118,9 @@ define(["jquery"],
 
                 db.transaction(
                     function (tx) {
-                        var sql = "INSERT INTO Sets (Name, Description, Duration, Type, Workout_id) VALUES('" +
-                            model.Name + "','" +
-                            model.Description + "','" +
-                            model.Duration + "','" +
-                            model.Type + "','" +
-                            model.Workout_id + "')";
+                        var sql = "INSERT INTO Sets (Name, Description, Duration, Type, Workout_id) VALUES(?, ?, ?, ?, ?)";
 
-                        tx.executeSql(sql, [], function (tx, results) {
+                        tx.executeSql(sql, [model.Name, model.Description, model.Duration, model.Type, model.Workout_id], function (tx, results) {
                             successCB(results.insertId);
                         });
                     },
@@ -140,12 +135,8 @@ define(["jquery"],
 
                 db.transaction(
                     function (tx) {
-                        var sql = "UPDATE Sets SET Name = '" + model.Name +
-                            "', Description = '" + model.Description +
-                            "', Duration = '" + model.Duration +
-                            "', Type = '" + model.Type +
-                            "' WHERE _id = " + model._id;
-                        tx.executeSql(sql, [], function (tx, results) {
+                        var sql = "UPDATE Sets SET Name = ?, Description = ?, Duration = ?, Type = ? WHERE _id = ?";
+                        tx.executeSql(sql, [model.Name, model.Description, model.Duration, model.Type, model._id], function (tx, results) {
                             successCB(model._id);
                         });
                     },
@@ -160,8 +151,8 @@ define(["jquery"],
 
                 db.transaction(
                     function (tx) {
-                        var sql = "SELECT * FROM Sets WHERE Workout_id = " + workoutId;
-                        tx.executeSql(sql, [], function (tx, results) {
+                        var sql = "SELECT * FROM Sets WHERE Workout_id = ?";
+                        tx.executeSql(sql, [workoutId], function (tx, results) {
                             var len = results.rows.length;
                             var sets = [];
                             for (var i = 0; i < len; i++) {
@@ -183,9 +174,9 @@ define(["jquery"],
 
                 db.transaction(
                     function (tx) {
-                        var sql = "SELECT * FROM Sets WHERE _id =" + setId;
+                        var sql = "SELECT * FROM Sets WHERE _id = ?";
 
-                        tx.executeSql(sql, [], function (tx, results) {
+                        tx.executeSql(sql, [setId], function (tx, results) {
                             var len = results.rows.length;
                             if (len == 0) {
                                 alert("Set with id: " + setId + "not found!");
@@ -207,8 +198,8 @@ define(["jquery"],
 
                 db.transaction(
                     function (tx) {
-                        var sql = "DELETE FROM Sets WHERE _id = " + setId;
-                        tx.executeSql(sql, [], function (tx, results) {
+                        var sql = "DELETE FROM Sets WHERE _id = ?";
+                        tx.executeSql(sql, [setId], function (tx, results) {
                             successCB(setId);
                         });
                     },

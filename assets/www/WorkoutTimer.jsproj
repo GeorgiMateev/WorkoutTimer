@@ -101,6 +101,8 @@
     <Content Include="spec\lib\jasmine-1.2.0\jasmine.css" />
     <Content Include="spec\lib\jasmine-1.2.0\jasmine.js" />
     <Content Include="spec\lib\jasmine-1.2.0\MIT.LICENSE" />
+    <Content Include="themes\Blue.css" />
+    <Content Include="themes\Blue.min.css" />
     <Content Include="themes\images\ajax-loader.gif" />
     <Content Include="themes\images\icons-18-black.png" />
     <Content Include="themes\images\icons-18-white.png" />

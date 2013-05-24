@@ -24,22 +24,27 @@
                 this.template = _.template($("script#timerViewTemplate").html(), {"model": jsonModel, "workout": jsonWorkout, "set": jsonSet });
 
                 this.$el.html(this.template);
-                this.$el.trigger("create");
+
+                $("#resumeTimerButton").hide();
+                this.$el.trigger("create");                
 
                 return this;
             },
 
             updateProgess: function (progressSec) {
-                console.log("update progress: " + progressSec);
                 $("#timer-progress").text(progressSec);
             },
 
             pauseTimer: function () {
-                this.model.pauseTimer();
+                $("#pauseTimerButton").hide();
+                $("#resumeTimerButton").show();
+                this.model.pauseTimer();                
             },
 
             resumeTimer: function () {
-                this.model.resumeTimer();
+                $("#resumeTimerButton").hide();
+                $("#pauseTimerButton").show();
+                this.model.resumeTimer();                
             }
         });
 

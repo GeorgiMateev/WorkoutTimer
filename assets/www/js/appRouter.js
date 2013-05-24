@@ -84,7 +84,7 @@ define(["jquery",
 	        },
 
 	        createWorkout: function () {
-	            this.workoutFormView.model = new WorkoutModel();
+	            this.workoutFormView.model.clear();
 
 	            this.workoutFormView.render();
 	            $.mobile.changePage("#workout-form", { reverse: false, changeHash: false });

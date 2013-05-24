@@ -7,6 +7,13 @@ define(["jquery", "backbone", "collections/setsCollection", "data/storageManager
 
 	        idAttribute: "_id",
 
+	        validate: function (attrs, options) {	            
+	            if (attrs.Name.length == 0) {
+	                options.error();
+	                return "Enter name";
+	            }
+	        },
+
 	        sync: function (method, model, options) {
 	            console.log("sync with method: " + method);
 

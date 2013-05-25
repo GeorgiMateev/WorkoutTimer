@@ -4,6 +4,7 @@
             initialize: function () {
                 if (this.model) {
                     this.model.on("change", this.render, this);
+                    this.model.on("invalid", this.showValidationMessage, this);
                 }
             },
 
@@ -20,19 +21,44 @@
             },
 
             submitForm: function () {
+                var self = this;
+
+                $(".validation-message").hide();
+
                 var attributes = {
                     "Name": this.$("#setNameTextBox").val(),
                     "Description": this.$("#setDescriptionTextBox").val(),
                     "Duration": this.$("#setDuration").val(),
                     "Type": this.$("#setTypeChoise").val()
                 }
+
                 $.mobile.loading("show");
+
                 this.model.save(attributes, {
                     success: function (model, insertID, options) {
                         $.mobile.loading("hide");
                         window.app_router.navigate("workoutDetails?" + model.get("Workout_id"), { trigger: true, replace: true });
+                    },
+                    error: function () {
+                        console.log("save error callback called");
+                        self.$el.trigger("pagecreate");
+                        $.mobile.loading("hide");
                     }
                 });
+            },
+
+            showValidationMessage: function (model, errors) {
+                for (var i = 0; i < errors.length; i++) {
+                    var error = errors[i];
+                    if (error.field == "Name") {
+                        $("#setNameValidationMessage").text(error.message);
+                        $("#setNameValidationMessage").show();
+                    }
+                    else if (error.field == "Duration") {
+                        $("#setDurationValidationMessage").text(error.message);
+                        $("#setDurationValidationMessage").show();
+                    }    
+                }
             }
         });
 

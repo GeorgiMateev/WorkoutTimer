@@ -105,12 +105,14 @@
                 <form>
                     <label for="nameTextBox">Name</label>
                     <input id="setNameTextBox" type="text" value="<%= model.Name %>"/>
+                    <p id="setNameValidationMessage" class="validation-message"></p>
 
                     <label for="descriptionTextBox">Description</label>
                     <input id="setDescriptionTextBox" type="text" value="<%= model.Description %>"/>
 
                     <label for="setDuration">Duration</label>
                     <input id="setDuration" type="text" value="<%= model.Duration %>"/>
+                    <p id="setDurationValidationMessage" class="validation-message"></p>
 
                     <% $('#setTypeChoice').val(model.Type) %>
 

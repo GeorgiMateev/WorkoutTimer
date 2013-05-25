@@ -125,7 +125,8 @@ define(["jquery",
 	        },
 
 	        createSet: function (id) {
-	            this.setFormView.model = new SetModel({"Workout_id": id});
+	            this.setFormView.model.clear();
+	            this.setFormView.model.set("Workout_id", id);
 
 	            this.setFormView.render();
 	            $.mobile.changePage("#set-form", { reverse: false, changeHash: false });

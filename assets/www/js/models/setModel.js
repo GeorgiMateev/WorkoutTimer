@@ -3,6 +3,29 @@
 	    var SetModel = Backbone.Model.extend({
 	        idAttribute: "_id",
 
+	        validate: function (attrs, options) {
+	            var errors = [];
+
+	            if (attrs.Name.length == 0) {
+	                options.error();
+	                errors.push({ field: "Name", message: "Enter name" });
+	            }
+
+	            var regex = new RegExp("\\D");
+	            var notInteger = regex.test(attrs.Duration);
+
+	            console.log("notInteger: " + notInteger);
+
+	            if (notInteger || attrs.Duration <= 0) {
+	                options.error();
+	                errors.push({ field: "Duration", message: "Enter integer greater than zero" });
+	            }
+
+	            if (errors.length > 0) {
+	                return errors;
+	            }	            
+	        },
+
 	        sync: function (method, model, options) {
 	            console.log("sync with method: " + method);
 

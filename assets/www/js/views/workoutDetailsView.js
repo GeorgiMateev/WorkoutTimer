@@ -8,7 +8,22 @@ define(["jquery", "backbone", "models/workoutModel"],
             },
 
             events: {
-                "click #deleteWorkoutButton": function () { this.deleteWorkout() }
+                "click #deleteWorkoutButton": function () { this.confirmDeleteWorkout() }
+            },
+
+            confirmDeleteWorkout: function () {
+                var self = this;
+
+                var name = this.model.get("Name");
+                navigator.notification.confirm("Do you want to delete " + name + "?",
+                        function (buttonIndex) {
+                            if (buttonIndex == 1) {
+                                self.deleteWorkout();
+                                window.history.back();
+                            }
+                        },
+                    "Delete " + name,
+                    "Yes,No");                
             },
 
             deleteWorkout: function () {

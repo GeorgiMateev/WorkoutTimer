@@ -4,19 +4,29 @@ define(["jquery", "appRouter", "backbone"],
 		}
 		Application.prototype = {
 		    initialize: function () {
-		        //this.app_router = new AppRouter();
+		        var self = this;
+		        document.addEventListener('deviceready', function () {
+		            document.addEventListener("pause", self.onPause, false);
+		            document.addEventListener("backbutton", self.onBackButtonClicked, false);
+		        }, false);
+		    },	    
 
-		        this.bindEvents();
+		    onBackButtonClicked: function () {
+		        var fragment = Backbone.history.fragment;
+
+		        if (fragment.indexOf("") != -1 && fragment.length == 0) {
+		            navigator.app.exitApp()
+		        }
+
+		        if (fragment.indexOf("startWorkout") != -1) {
+		            window.app_router.timerView.confirmExit();
+		            return;
+		        }
+
+		        window.history.back();
 		    },
 
-		    bindEvents: function () {
-		        document.addEventListener('deviceready', this.onDeviceReady, false);
-		    },
-
-		    onDeviceReady: function () {
-		        //this.app_router.on("route:showWorkout", function (id) {
-		        //	alert("workout: " + id);
-		        //});
+		    onPause: function () {
 		    },
 
 		    getPhoneGapFilePath: function () {

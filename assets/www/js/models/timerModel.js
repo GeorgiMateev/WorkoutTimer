@@ -62,6 +62,10 @@
 	            
 	        },
 
+	        stopTimer: function () {
+	            this.timer.stop();
+	        },
+
 	        pauseTimer: function () {
 	            this.timer.pause();
 	        },

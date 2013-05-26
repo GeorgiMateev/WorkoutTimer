@@ -8,7 +8,22 @@
             },
 
             events: {
-                "click #deleteSetButton": function () { this.deleteSet() }
+                "click #deleteSetButton": function () { this.confirmDeleteSet() }
+            },
+
+            confirmDeleteSet: function () {
+                var self = this;
+
+                var name = this.model.get("Name");
+                navigator.notification.confirm("Do you want to delete " + name + "?",
+                        function (buttonIndex) {
+                            if (buttonIndex == 1) {
+                                self.deleteSet();
+                                window.history.back();
+                            }
+                        },
+                    "Delete " + name,
+                    "Yes,No");
             },
 
             deleteSet: function () {

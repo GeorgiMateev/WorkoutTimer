@@ -62,6 +62,10 @@
                 this.jsTimerObject = null;
             },
 
+            stop: function () {
+                this.reset();
+            },
+
             pause: function () {
                 if (this.jsTimerObject) {
                     window.clearTimeout(this.jsTimerObject);

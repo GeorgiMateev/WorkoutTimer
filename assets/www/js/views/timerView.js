@@ -45,6 +45,19 @@
                 $("#resumeTimerButton").hide();
                 $("#pauseTimerButton").show();
                 this.model.resumeTimer();                
+            },
+
+            confirmExit: function () {
+                var self = this;
+                navigator.notification.confirm("Do you want to give up?",
+                        function (buttonIndex) {
+                            if (buttonIndex == 1) {
+                                self.model.stopTimer();
+                                window.history.back();
+                            }
+                        },
+                    "Give up",
+                    "Yes,No");
             }
         });
 

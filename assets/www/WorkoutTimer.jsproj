@@ -51,6 +51,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="css\index.css" />
+    <Content Include="css\jqm-datebox-1.1.0.css" />
+    <Content Include="css\jqm-datebox.css" />
     <Content Include="css\jquery.mobile-1.3.0.css" />
     <Content Include="css\jquery.mobile-1.3.1.css" />
     <Content Include="img\cordova.png" />
@@ -64,6 +66,11 @@
     <Content Include="js\data\storageManager.js" />
     <Content Include="js\libs\backbone.js" />
     <Content Include="js\libs\cordova-2.4.0.js" />
+    <Content Include="js\libs\jqm-datebox-1.1.0.core.js" />
+    <Content Include="js\libs\jqm-datebox-1.1.0.mode.durationbox.js" />
+    <Content Include="js\libs\jqm-datebox.comp.durationflipbox.js" />
+    <Content Include="js\libs\jqm-datebox.core.js" />
+    <Content Include="js\libs\jqm-datebox.mode.durationbox.js" />
     <Content Include="js\libs\jquery.js" />
     <Content Include="js\libs\jquerymobile.js" />
     <Content Include="js\libs\require.js" />

@@ -39,6 +39,9 @@ body {
     float: right;
     position: static !important;
 }
+.float-left {
+    float: left !important;
+}
 .hidden {
     display:none;
 }

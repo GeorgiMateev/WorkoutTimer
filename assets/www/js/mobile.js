@@ -10,15 +10,25 @@
             "underscore": "libs/underscore",
             "backbone": "libs/backbone",
 			"appRouter": "appRouter",
-			"application": "application"
+			"application": "application",
+			//"dateBoxCore": "libs/jqm-datebox-1.1.0.core",
+            //"durationFlipBox": "libs/jqm-datebox-1.1.0.mode.durationbox"
+			//"dateBoxCore": "libs/jqm-datebox.core",
+            //"durationFlipBox": "libs/jqm-datebox.mode.durationbox"
+			"durationFlipBox": "libs/jqm-datebox.comp.durationflipbox"
         },
 
         // Sets the configuration for your third party scripts that are not AMD compatible
         shim: {
 
             "backbone": {
-                  "deps": [ "underscore", "jquery" ],
-                  "exports": "Backbone"  //attaches "Backbone" to the window object
+                 "deps": [ "underscore", "jquery" ],
+                 "exports": "Backbone"  //attaches "Backbone" to the window object
+            },
+
+            "durationFlipBox": {
+                "deps": ["jquery"],
+                "exports": "DurationFlipBox"
             }
 
         } // end Shim Configuration

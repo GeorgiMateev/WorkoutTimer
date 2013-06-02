@@ -1,5 +1,5 @@
-﻿define(["jquery", "backbone", "models/setModel"],
-    function ($, Backbone, SetModel) {
+﻿define(["jquery", "backbone", "models/setModel", "durationFlipBox"],
+    function ($, Backbone, SetModel, DurationFlipBox) {
         var SetFormView = Backbone.View.extend({
             initialize: function () {
                 if (this.model) {

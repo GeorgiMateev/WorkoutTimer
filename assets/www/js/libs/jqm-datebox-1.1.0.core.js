@@ -226,7 +226,7 @@
 			});
 		},
 		_event: function(e, p) {
-			var w = $(this).data('datebox');
+		    var w = $(this).data('mobile-datebox');
 			if ( ! e.isPropagationStopped() ) {
 				switch (p.method) {
 					case 'close':

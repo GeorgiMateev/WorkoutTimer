@@ -68,9 +68,6 @@
     <Content Include="js\libs\cordova-2.4.0.js" />
     <Content Include="js\libs\jqm-datebox-1.1.0.core.js" />
     <Content Include="js\libs\jqm-datebox-1.1.0.mode.durationbox.js" />
-    <Content Include="js\libs\jqm-datebox.comp.durationflipbox.js" />
-    <Content Include="js\libs\jqm-datebox.core.js" />
-    <Content Include="js\libs\jqm-datebox.mode.durationbox.js" />
     <Content Include="js\libs\jquery.js" />
     <Content Include="js\libs\jquerymobile.js" />
     <Content Include="js\libs\require.js" />

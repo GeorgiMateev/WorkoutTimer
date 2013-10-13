@@ -11,11 +11,8 @@
             "backbone": "libs/backbone",
 			"appRouter": "appRouter",
 			"application": "application",
-			//"dateBoxCore": "libs/jqm-datebox-1.1.0.core",
-            //"durationFlipBox": "libs/jqm-datebox-1.1.0.mode.durationbox"
-			//"dateBoxCore": "libs/jqm-datebox.core",
-            //"durationFlipBox": "libs/jqm-datebox.mode.durationbox"
-			"durationFlipBox": "libs/jqm-datebox.comp.durationflipbox"
+			"dateBoxCore": "libs/jqm-datebox-1.1.0.core",
+            "durationFlipBox": "libs/jqm-datebox-1.1.0.mode.durationbox",
         },
 
         // Sets the configuration for your third party scripts that are not AMD compatible
@@ -27,7 +24,7 @@
             },
 
             "durationFlipBox": {
-                "deps": ["jquery"],
+                "deps": ["jquery", "dateBoxCore"],
                 "exports": "DurationFlipBox"
             }
 

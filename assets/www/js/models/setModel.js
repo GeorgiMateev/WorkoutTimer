@@ -3,6 +3,31 @@
 	    var SetModel = Backbone.Model.extend({
 	        idAttribute: "_id",
 
+	        initDurationDisplayValue: function () {
+	            var duration = this.get("Duration");
+	            var minutes = Math.floor(duration / 60);
+	            var seconds = duration % 60;
+
+	            var minStr = minutes.toString().length == 2 ? minutes : "0" + minutes;
+	            var secStr = seconds.toString().length == 2 ? seconds : "0" + seconds;
+
+	            var value = minStr + ":" + secStr;
+
+	            this.set("DurationDisplayValue", value);
+
+	            return value;
+	        },
+
+	        parseDuration: function (duration) {
+	            var parts = duration.split(":");
+
+	            var minutes = parseInt(parts[0]);
+	            var seconds = parseInt(parts[1]);
+
+	            var duration = minutes * 60 + seconds;
+	            return duration;
+	        },
+
 	        validate: function (attrs, options) {
 	            var errors = [];
 
@@ -48,7 +73,7 @@
 
 	            if (method == "update") {
 	                manager.updateSet(model.toJSON(),
-                    function (updateId) {
+                    function (updateId) {                        
                         options.success(self, updateId, options);
                         deferred.resolve();
                     },
@@ -60,8 +85,9 @@
 
 	            if (method == "read") {
 	                manager.getSet(options.id,
-                        function (result) {
+                        function (result) {                            
                             options.success(self, result, options);
+                            model.initDurationDisplayValue();
                             deferred.resolve();
                         },
                         function (error) {

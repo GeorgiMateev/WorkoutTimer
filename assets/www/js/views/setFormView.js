@@ -17,6 +17,8 @@
 
                 this.$el.html(this.template);
 
+                $("#setDuration").val(this.model.get("DurationDisplayValue"));
+
                 return this;
             },
 
@@ -28,7 +30,7 @@
                 var attributes = {
                     "Name": this.$("#setNameTextBox").val(),
                     "Description": this.$("#setDescriptionTextBox").val(),
-                    "Duration": this.$("#setDuration").val(),
+                    "Duration": this.model.parseDuration(this.$("#setDuration").val()),
                     "Type": this.$("#setTypeChoise").val()
                 }
 

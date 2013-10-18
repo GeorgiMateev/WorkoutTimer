@@ -1,24 +1,23 @@
 ﻿define(["jquery", "backbone", "data/storageManager"],
 	function ($, Backbone, StorageManager) {
 	    var SetModel = Backbone.Model.extend({
+	        initialize : function () {
+	            this.initDurationDisplayValue();
+	        },
+
 	        idAttribute: "_id",
 
 	        initDurationDisplayValue: function () {
 	            var duration = this.get("Duration");
-	            var minutes = Math.floor(duration / 60);
-	            var seconds = duration % 60;
-
-	            var minStr = minutes.toString().length == 2 ? minutes : "0" + minutes;
-	            var secStr = seconds.toString().length == 2 ? seconds : "0" + seconds;
-
-	            var value = minStr + ":" + secStr;
+	            
+	            var value = this.getTimeDisplayString(duration);
 
 	            this.set("DurationDisplayValue", value);
 
 	            return value;
 	        },
 
-	        parseDuration: function (duration) {
+	        parseTime: function (duration) {
 	            var parts = duration.split(":");
 
 	            var minutes = parseInt(parts[0]);
@@ -26,6 +25,17 @@
 
 	            var duration = minutes * 60 + seconds;
 	            return duration;
+	        },
+
+	        getTimeDisplayString : function (time) {
+	            var minutes = Math.floor(time / 60);
+	            var seconds = time % 60;
+
+	            var minStr = minutes.toString().length == 2 ? minutes : "0" + minutes;
+	            var secStr = seconds.toString().length == 2 ? seconds : "0" + seconds;
+
+	            var value = minStr + ":" + secStr;
+	            return value;
 	        },
 
 	        validate: function (attrs, options) {

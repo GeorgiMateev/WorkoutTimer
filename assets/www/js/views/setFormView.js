@@ -30,7 +30,7 @@
                 var attributes = {
                     "Name": this.$("#setNameTextBox").val(),
                     "Description": this.$("#setDescriptionTextBox").val(),
-                    "Duration": this.model.parseDuration(this.$("#setDuration").val()),
+                    "Duration": this.model.parseTime(this.$("#setDuration").val()),
                     "Type": this.$("#setTypeChoise").val()
                 }
 

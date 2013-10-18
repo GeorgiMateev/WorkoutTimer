@@ -46,7 +46,9 @@
 	            this.set("currentSet", this.workoutModel.setsCollection.at(this.currentSetIndex));
 	            console.log("next set");	            
 
-	            this.timer.setInterval(this.get("currentSet").get("Duration"), function (progressSec, isCompleted) {
+	            var currentSetDuration = this.get("currentSet").get("Duration");
+
+	            this.timer.setInterval(currentSetDuration, function (progressSec, isCompleted) {
 	                self.progressSec = progressSec;
 	                self.trigger("progressChanged", progressSec);
 

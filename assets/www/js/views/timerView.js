@@ -32,7 +32,10 @@
             },
 
             updateProgess: function (progressSec) {
-                $("#timer-progress").text(progressSec);
+                var duration = this.model.get("currentSet").get("Duration");
+                var displayStr = this.model.get("currentSet").getTimeDisplayString(duration - progressSec);
+
+                $("#timer-progress").text(displayStr);
             },
 
             pauseTimer: function () {

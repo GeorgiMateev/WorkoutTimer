@@ -3,7 +3,7 @@
         var SetFormView = Backbone.View.extend({
             initialize: function () {
                 if (this.model) {
-                    this.model.on("change", this.render, this);
+                    //this.model.on("change", this.render, this);
                     this.model.on("invalid", this.showValidationMessage, this);
                 }
             },
@@ -17,7 +17,12 @@
 
                 this.$el.html(this.template);
 
-                $("#setDuration").val(this.model.get("DurationDisplayValue"));
+                //restyle the widgets in the template
+                $("#set-form").trigger("pagecreate");
+
+                $("#setTypeChoise").val(this.model.get("Type")).selectmenu("refresh");
+                
+                $('#setDuration').trigger('datebox', { 'method': 'dooffset', 'type': 's', 'amount': this.model.get("Duration") }).trigger('datebox', { 'method': 'doset' });
 
                 return this;
             },

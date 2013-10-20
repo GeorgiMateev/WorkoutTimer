@@ -116,10 +116,8 @@
                     <!--<input id="setDuration" type="text" value="<%= model.Duration %>"/>-->
 
                     <input id="setDuration" type="date" data-role="datebox"
-                        data-options='{"mode": "durationbox","useFocus": true, "overrideDurationOrder": ["i", "s"], "overrideDurationFormat": "%DM:%DS", "overrideTitleDateDialogLabel": "Duration", "overrideSetDurationButtonLabel": "Set" }'}'>
+                        data-options='{"mode": "durationbox", "showInitialValue": true, "useFocus": true, "overrideDurationOrder": ["i", "s"], "overrideDurationFormat": "%DM:%DS", "overrideTitleDateDialogLabel": "Duration", "overrideSetDurationButtonLabel": "Set" }' />
                     <p id="setDurationValidationMessage" class="validation-message"></p>
-
-                    <% $('#setTypeChoice').val(model.Type) %>
 
                     <select id="setTypeChoise">
                         <option value="set">Set</option>

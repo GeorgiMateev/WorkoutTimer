@@ -151,11 +151,9 @@ define(["jquery",
 	            $.mobile.loading("show");
 	            var self = this;
 	            this.setFormView.model.fetch({ "id": id }).done(function () {
-	                self.setFormView.render();
 	                $.mobile.changePage("#set-form", { reverse: false, changeHash: false });
+	                self.setFormView.render(); 
 
-	                //restyle the widgets in the template
-	                $("#set-form").trigger("pagecreate");
 	                $.mobile.loading("hide");
 	            });
 	        },

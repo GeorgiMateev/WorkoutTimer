@@ -30,7 +30,7 @@
                 this.progressSec++;
                 this.progressSecInternal++;
 
-                var completed = this.progressSec == intervalSec;
+                var completed = this.progressSecInternal == intervalSec;
                 callback(this.progressSec, completed);
 
                 if (completed) { this.isRunning = false; return; }

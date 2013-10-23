@@ -5,12 +5,14 @@
                 if (this.model) {
                     this.model.on("change", this.render, this);
                     this.model.on("progressChanged", this.updateProgess, this);
+                    this.model.on("timerFinished", this.timerFinished, this);
                 }
             },
 
             events: {
                 "click #pauseTimerButton": function () { this.pauseTimer() },
-                "click #resumeTimerButton": function () { this.resumeTimer() }
+                "click #resumeTimerButton": function () { this.resumeTimer() },
+                "click #restartTimerButton": function () { this.restartTimer() }
             },
             
             render: function () {
@@ -26,6 +28,7 @@
                 this.$el.html(this.template);
 
                 $("#resumeTimerButton").hide();
+                $("#restartTimerButton").hide();
 
                 //reenchance the jquery mobile widgets
                 if (this.$el.hasClass("ui-page")) {
@@ -52,6 +55,17 @@
                 $("#resumeTimerButton").hide();
                 $("#pauseTimerButton").show();
                 this.model.resumeTimer();                
+            },
+
+            restartTimer: function () {
+                app_router.startWorkout(this.model.workoutModel.get("_id"));
+            },
+
+            timerFinished: function () {
+                alert("The workout is over!");
+
+                $("#pauseTimerButton").hide();
+                $("#restartTimerButton").show();
             },
 
             confirmExit: function () {

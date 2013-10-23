@@ -39,7 +39,7 @@
 	            }
 
 	            if (this.currentSetIndex == this.workoutModel.setsCollection.length) {
-	                alert("The workout is over!");
+	                self.trigger("timerFinished");	                
 	                return;
 	            }
 

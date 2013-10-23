@@ -26,7 +26,11 @@
                 this.$el.html(this.template);
 
                 $("#resumeTimerButton").hide();
-                this.$el.trigger("create");                
+
+                //reenchance the jquery mobile widgets
+                if (this.$el.hasClass("ui-page")) {
+                    this.$el.trigger("pagecreate");
+                }
 
                 return this;
             },

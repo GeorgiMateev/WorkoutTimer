@@ -18,7 +18,7 @@
                 this.$el.html(this.template);
 
                 //restyle the widgets in the template
-                $("#set-form").trigger("pagecreate");
+                this.$el.trigger("pagecreate");
 
                 $("#setTypeChoise").val(this.model.get("Type")).selectmenu("refresh");
                 

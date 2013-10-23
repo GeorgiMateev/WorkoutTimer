@@ -162,24 +162,18 @@ define(["jquery",
 	            $.mobile.loading("show");
 	            var self = this;
 	            this.timerView.model.fetch({ "id": id }).done(function () {
-	                self.timerView.render();
 	                $.mobile.changePage("#timer-view", { reverse: false, changeHash: false });
 
-	                //restyle the widgets in the template
-	                $("#timer-view").trigger("pagecreate");
 	                $.mobile.loading("hide");
 
-                    //retrieve this variables from config or db
+                    //TODO: retrieve this variables from config or db
 	                var vibrateMs = 2000;
 	                var path = window.app.getPhoneGapFilePath();
 	                var src = path + "res/media/BoxingBell.mp3";
-
-	                console.log(path);
-	                console.log(src);
-
+	                
 	                self.timerView.model.startTimer(true, function () {
 	                    var deferred = $.Deferred();
-
+	                    
 	                    navigator.notification.vibrate(vibrateMs);
 	                    var media = new Media(src, function () {
 	                        deferred.resolve();

@@ -18,14 +18,22 @@
 	            var self = this;
 
 	            if (method == "read") {
-	                var deffered = this.workoutModel.fetch({ "id": options.id })
+	                var deferred = $.Deferred();
+
+	                this.workoutModel.fetch({ "id": options.id })
                         .done(function () {
                             self.workoutModel.setsCollection.fetch({ "workoutId": options.id });
                         })
                         .done(function () {
-                            self.set("currentSet", self.workoutModel.setsCollection.at(0));
+                            if (self.workoutModel.setsCollection.length > 0) {
+                                self.set("currentSet", self.workoutModel.setsCollection.at(0));
+                                deferred.resolve();
+                            }
+                            else {
+                                deferred.reject();
+                            }
                         });
-	                return deffered;
+	                return deferred;
 	            }
 	        },
 

@@ -50,6 +50,10 @@ define(["jquery", "backbone", "models/workoutModel"],
 
                 this.$el.html(this.template);
 
+                if (jsonSets.length == 0) {
+                    $("#startWorkoutButton").hide();
+                }
+
                 return this;
             }
         });

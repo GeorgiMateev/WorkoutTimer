@@ -182,6 +182,9 @@ define(["jquery",
 
 	                    return deferred;
 	                });
+	            })
+	            .fail(function () {
+	                self.navigate("workoutDetails?" + id, { trigger: true, replace: true });
 	            });
 	        }
 	    });

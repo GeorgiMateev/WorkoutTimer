@@ -58,7 +58,7 @@
         <script type="text/template" id="workoutDetailsTemplate">
             <div data-role="header" class="clearfix">
 	            <h1 class="float-left"><%= model.Name %></h1>	            
-                <a href="#startWorkout?<%= model._id %>" data-role="button" class="float-right">Start</a>
+                <a id="startWorkoutButton" href="#startWorkout?<%= model._id %>" data-role="button" class="float-right">Start</a>
 	        </div>
             <div data-role="content">
                 <p><%= model._id %></p>

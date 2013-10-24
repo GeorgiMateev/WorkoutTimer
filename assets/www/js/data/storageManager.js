@@ -165,7 +165,10 @@ define(["jquery"],
                         errorCB(error);
                     }
                 );
-                //var s = [{ "_id": 1, "Name": "ime", "Workout_id": workoutId, "Duration": 23 }];
+                //var s = [{ "_id": 1, "Name": "set 1", "Workout_id": workoutId, Description: "Description of a set 1", "Duration": 5, Type: "set" },
+                //{ "_id": 2, "Name": "set 2", "Workout_id": workoutId, Description: "Description of a set 2", "Duration": 5, Type: "rest" }
+                //];
+                ////var s = [];
                 //successCB(s);
             },
 
@@ -191,6 +194,15 @@ define(["jquery"],
                         errorCB(error);
                     }
                 );
+
+                //if (setId == 1) {
+                //    var s = { "_id": 1, "Name": "set 1", "Workout_id": 1, Description: "Description of a set 1", "Duration": 5 , Type:"set"};
+                //    successCB(s);
+                //}
+                //else if(setId == 2){
+                //    var s = { "_id": 2, "Name": "set 2", "Workout_id": 1, Description: "Description of a set 2", "Duration": 5 , Type:"rest"};
+                //    successCB(s);
+                //}
             },
 
             deleteSet: function (setId, successCB, errorCB) {

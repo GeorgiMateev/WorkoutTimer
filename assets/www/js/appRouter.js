@@ -128,11 +128,8 @@ define(["jquery",
 	            this.setFormView.model.clear();
 	            this.setFormView.model.set("Workout_id", id);
 
-	            this.setFormView.render();
 	            $.mobile.changePage("#set-form", { reverse: false, changeHash: false });
-
-	            //restyle the widgets in the template
-	            $("#set-form").trigger("pagecreate");	            
+	            this.setFormView.render();           
 	        },
 
 	        setDetails: function (id) {

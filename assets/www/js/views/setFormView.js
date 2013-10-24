@@ -3,6 +3,7 @@
         var SetFormView = Backbone.View.extend({
             initialize: function () {
                 if (this.model) {
+                    //the render method is called in appRouter
                     //this.model.on("change", this.render, this);
                     this.model.on("invalid", this.showValidationMessage, this);
                 }

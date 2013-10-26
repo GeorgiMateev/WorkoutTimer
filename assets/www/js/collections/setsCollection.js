@@ -2,6 +2,7 @@
 	function ($, Backbone, SetModel, StorageManager, SetsCollection) {
 	    var SetsCollection = Backbone.Collection.extend({
 	        initialize: function (models, options) {
+	            this.isFetched = false;
 	        },
 
 	        model: SetModel,
@@ -14,7 +15,7 @@
 	            manager.getAllWorkoutSets(options.workoutId,
                 function (result) {
                     options.success(self, result, options);
-                    self.trigger("added");
+                    self.isFetched = true;
                     deferred.resolve();
                 },
                 function (error) {

@@ -65,7 +65,7 @@
                 <ul data-role="listview">                    
                     <% _.each( sets, function( set, id ) { %>
                         <li class="ui-li ui-li-static ui-btn-up-c ui-corner-top">
-                            <a href="#setDetails?<%= set._id %>"><%= set.Name %></a>
+                            <a href="#setDetails?id=<%= set._id %>&w=<%= set.Workout_id %>"><%= set.Name %></a>
                             <span>Id: <%= set._id %></span>
                             <span><%= set.Duration %></span>
                             <span><%= set.Description %></span>
@@ -139,7 +139,7 @@
             </div>
             <div data-role="footer" data-position="fixed">
                 <a data-role="button" id="deleteSetButton">Delete</a>
-                <a data-role="button" id="editSetButton" href="#editSet?<%= model._id %>">Edit</a>
+                <a data-role="button" id="editSetButton" href="#editSet?id=<%= model._id %>&w=<%= model.Workout_id %>">Edit</a>
 	        </div>
         </script>
         <script type="text/template" id="timerViewTemplate">

@@ -40,12 +40,10 @@ define(["jquery",
 
 	            this.setFormView = new SetFormView({
 	                el: "#set-form",
-	                model: new SetModel()
 	            });
 
 	            this.setDetailsView = new SetDetailsView({
 	                el: "#set-details",
-	                model: new SetModel()
 	            });
 
 	            this.timerView = new TimerView({
@@ -62,8 +60,8 @@ define(["jquery",
 	            "createWorkout": "createWorkout",
 	            "editWorkout?:id": "editWorkout",
 	            "createSet?:id": "createSet",
-	            "setDetails?:id": "setDetails",
-	            "editSet?:id": "editSet",
+	            "setDetails?id=:id&w=:workoutId": "setDetails",
+	            "editSet?id=:id&w=:workoutId": "editSet",
                 "startWorkout?:id": "startWorkout"
 	        },
 
@@ -109,16 +107,26 @@ define(["jquery",
 	            $.mobile.loading("show");
 	            var self = this;
 
-	            var workoutModel = this.workoutsView.collection.get(id)
-	            workoutModel.setsCollection.fetch({ "workoutId": id })
-                    .done(function () {
-                        self.workoutDetailsView.changeModel(workoutModel);
+	            var deferred = $.Deferred();
 
-                        $.mobile.changePage("#workout-details", { reverse: false, changeHash: false });
-                        self.workoutDetailsView.render();
-                        
-                        $.mobile.loading("hide");
+	            var workoutModel = this.workoutsView.collection.get(id);
+
+	            if (!workoutModel.setsCollection.isFetched) {
+	                workoutModel.setsCollection.fetch({ "workoutId": id })
+                    .done(function () {
+                        deferred.resolve();
                     });
+	            }
+	            else deferred.resolve();
+
+	            deferred.done(function () {
+	                self.workoutDetailsView.changeModel(workoutModel);
+
+	                $.mobile.changePage("#workout-details", { reverse: false, changeHash: false });
+	                self.workoutDetailsView.render();
+
+	                $.mobile.loading("hide");
+	            });
 	        },
 
 	        editWorkout: function (id) {
@@ -139,37 +147,47 @@ define(["jquery",
 	        createSet: function (id) {
 	            this.setFormView.mode = "create";
 
-	            this.setFormView.model.clear();
+	            this.setFormView.changeModel(new SetModel());
 	            this.setFormView.model.set("Workout_id", id);
 
+	            var workoutModel = this.workoutsView.collection.get(id);
+	            this.setFormView.set_collection(workoutModel.setsCollection);
+
 	            $.mobile.changePage("#set-form", { reverse: false, changeHash: false });
-	            this.setFormView.render();           
+	            this.setFormView.render();
 	        },
 
-	        setDetails: function (id) {
+	        setDetails: function (id, workoutId) {
 	            $.mobile.loading("show");
 
-	            this.setDetailsView.model.fetch({ "id": id }).done(function () {
-	                $.mobile.changePage("#set-details", { reverse: false, changeHash: false });
+	            var workoutModel = this.workoutsView.collection.get(workoutId);
+	            var setModel = workoutModel.setsCollection.get(id);
 
-	                //restyle the widgets in the template
-	                $("#set-details").trigger("pagecreate");
-	                $.mobile.loading("hide");
-	            });
+	            this.setDetailsView.changeModel(setModel);
+	            this.setDetailsView.set_collection(workoutModel.setsCollection);
+
+	            $.mobile.changePage("#set-details", { reverse: false, changeHash: false });
+
+	            this.setDetailsView.render();
+
+	            $.mobile.loading("hide");
 	        },
 
-	        editSet: function (id) {
+	        editSet: function (id, workoutId) {
 	            $.mobile.loading("show");
 
 	            this.setFormView.mode = "edit";
 
-	            var self = this;
-	            this.setFormView.model.fetch({ "id": id }).done(function () {
-	                $.mobile.changePage("#set-form", { reverse: false, changeHash: false });
-	                self.setFormView.render(); 
+	            var workoutModel = this.workoutsView.collection.get(workoutId);
+	            var setModel = workoutModel.setsCollection.get(id);
 
-	                $.mobile.loading("hide");
-	            });
+	            this.setFormView.changeModel(setModel);
+	            this.setFormView.set_collection(workoutModel.setsCollection);
+
+	            $.mobile.changePage("#set-form", { reverse: false, changeHash: false });
+	            this.setFormView.render();
+
+	            $.mobile.loading("hide");
 	        },
 
 	        startWorkout: function (id) {

@@ -2,13 +2,20 @@
     function ($, Backbone, WorkoutModel) {
         var SetDetailsView = Backbone.View.extend({
             initialize: function () {
-                if (this.model) {
-                    this.model.on("change", this.render, this);
-                }
             },
 
             events: {
                 "click #deleteSetButton": function () { this.confirmDeleteSet() }
+            },
+
+            changeModel: function (newModel) {
+                this.model = newModel;
+
+                //Attach event to the new model
+            },
+
+            set_collection: function (collection) {
+                this.collection = collection;
             },
 
             confirmDeleteSet: function () {
@@ -34,6 +41,7 @@
 
                 this.model.destroy({
                     success: function (model, deleteId, options) {
+                        self.collection.remove(model);
                         $.mobile.loading("hide");
                         window.app_router.navigate("#workoutDetails?" + workoutId, { trigger: true, replace: true });
                     },
@@ -42,11 +50,16 @@
             },
 
             render: function () {
+                this.model.initDurationDisplayValue();
+
                 var jsonModel = this.model.toJSON();
 
                 this.template = _.template($("script#setDetailsTemplate").html(), { "model": jsonModel });
 
-                this.$el.html(this.template);
+                this.$el.html(this.template);                
+
+                //restyle the widgets in the template
+                this.$el.trigger("pagecreate");
 
                 return this;
             }

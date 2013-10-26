@@ -96,8 +96,7 @@
 	            if (method == "read") {
 	                manager.getSet(options.id,
                         function (result) {                            
-                            options.success(self, result, options);
-                            model.initDurationDisplayValue();
+                            options.success(self, result, options);                            
                             deferred.resolve();
                         },
                         function (error) {

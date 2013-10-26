@@ -13,6 +13,26 @@
                 "click #submitSetFormButton": function () { this.submitForm() }
             },
 
+            changeModel: function (newModel) {
+                this.unbindModel();
+
+                this.model = newModel;
+
+                //Attach event to the new model
+                this.model.on("invalid", this.showValidationMessage, this);
+            },
+
+            unbindModel: function () {
+                //Detach all events from the model
+                if (this.model) {
+                    this.model.off("invalid", this.showValidationMessage, this);
+                }
+            },
+
+            set_collection: function (collection) {
+                this.collection = collection;
+            },
+
             render: function () {                
                 this.template = _.template($("script#setFormTemplate").html(), { "model": this.model.toJSON(), "$": $});
 
@@ -49,6 +69,7 @@
                         if (!self.mode) return;
 
                         if (self.mode == "create") {
+                            self.collection.add(self.model);
                             window.history.back();
                         }
                         else if (self.mode == "edit") {

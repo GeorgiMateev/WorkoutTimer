@@ -45,7 +45,15 @@
                 this.model.save(attributes, {
                     success: function (model, insertID, options) {
                         $.mobile.loading("hide");
-                        window.app_router.navigate("workoutDetails?" + model.get("Workout_id"), { trigger: true, replace: true });
+
+                        if (!self.mode) return;
+
+                        if (self.mode == "create") {
+                            window.history.back();
+                        }
+                        else if (self.mode == "edit") {
+                            window.history.go(-2); //will navigate back to workout details
+                        }
                     },
                     error: function () {
                         console.log("save error callback called");

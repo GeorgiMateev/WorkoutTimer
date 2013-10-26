@@ -3,7 +3,7 @@ define(["jquery", "backbone", "models/workoutModel"],
         var WorkoutFormView = Backbone.View.extend({
             initialize: function () {
                 if (this.model) {
-                    this.model.on("change", this.render, this);
+                    //this.model.on("change", this.render, this);
                     this.model.on("invalid", this.showValidationMessage, this);
                 }
             },
@@ -35,7 +35,15 @@ define(["jquery", "backbone", "models/workoutModel"],
                 this.model.save(attributes, {
                     success: function (model, insertID, options) {
                         $.mobile.loading("hide");
-                        window.app_router.navigate("workoutDetails?" + model.get("_id"), { trigger: true, replace: true });
+
+                        if (!self.mode) return;
+
+                        if (self.mode == "create") {
+                            window.app_router.navigate("workoutDetails?" + model.get("_id"), { trigger: true, replace: true });
+                        }
+                        else if (self.mode == "edit") {
+                            window.history.back();
+                        }                        
                     },
                     error: function (model, xhr, options) {
                         console.log("save error callback called");                        

@@ -86,6 +86,8 @@ define(["jquery",
 	        createWorkout: function () {
 	            this.workoutFormView.model.clear();
 
+	            this.workoutFormView.mode = "create";
+
 	            this.workoutFormView.render();
 	            $.mobile.changePage("#workout-form", { reverse: false, changeHash: false });
 
@@ -114,6 +116,9 @@ define(["jquery",
 	        editWorkout: function (id) {
 	            $.mobile.loading("show");
 	            var self = this;
+
+	            this.workoutFormView.mode = "edit";
+
 	            this.workoutFormView.model.fetch({ "id": id }).done(function () {
 	                self.workoutFormView.render();
 	                $.mobile.changePage("#workout-form", { reverse: false, changeHash: false });
@@ -125,6 +130,8 @@ define(["jquery",
 	        },
 
 	        createSet: function (id) {
+	            this.setFormView.mode = "create";
+
 	            this.setFormView.model.clear();
 	            this.setFormView.model.set("Workout_id", id);
 
@@ -146,6 +153,9 @@ define(["jquery",
 
 	        editSet: function (id) {
 	            $.mobile.loading("show");
+
+	            this.setFormView.mode = "edit";
+
 	            var self = this;
 	            this.setFormView.model.fetch({ "id": id }).done(function () {
 	                $.mobile.changePage("#set-form", { reverse: false, changeHash: false });

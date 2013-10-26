@@ -2,20 +2,35 @@ define(["jquery", "backbone", "models/workoutModel"],
     function ($, Backbone, WorkoutModel) {
         var WorkoutFormView = Backbone.View.extend({
             initialize: function () {
-                if (this.model) {
-                    //this.model.on("change", this.render, this);
-                    this.model.on("invalid", this.showValidationMessage, this);
-                }
             },
 
             events: {
                 "click #submitFormButton": function () { this.submitForm() }
             },
 
+            changeModel: function (newModel) {
+                this.unbindModel();
+
+                this.model = newModel;
+
+                //Attach event to the new model
+                this.model.on("invalid", this.showValidationMessage, this);
+            },
+
+            unbindModel: function () {
+                //Detach all events from the model
+                if (this.model) {
+                    this.model.off("invalid", this.showValidationMessage, this);
+                }
+            },
+
             render: function () {
                 this.template = _.template($("script#workoutFormTemplate").html(), { "model": this.model.toJSON() });
 
                 this.$el.html(this.template);
+
+                //restyle the widgets in the template
+                this.$el.trigger("pagecreate");
 
                 return this;
             },
@@ -39,6 +54,7 @@ define(["jquery", "backbone", "models/workoutModel"],
                         if (!self.mode) return;
 
                         if (self.mode == "create") {
+                            self.collection.add(self.model);
                             window.app_router.navigate("workoutDetails?" + model.get("_id"), { trigger: true, replace: true });
                         }
                         else if (self.mode == "edit") {

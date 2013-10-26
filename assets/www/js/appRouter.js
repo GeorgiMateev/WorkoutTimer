@@ -17,19 +17,22 @@ define(["jquery",
 	        initialize: function () {
 	            var self = this;
 
+	            var workoutsCollection = new WorkoutsCollection([], {});
+
 	            this.workoutsView = new WorkoutsView({
 	                el: "#workouts-view",
-	                collection: new WorkoutsCollection([], {})
+	                collection: workoutsCollection
 	            });
 
 	            this.workoutDetailsView = new WorkoutDetailsView({
 	                el: "#workout-details",
-	                model: new WorkoutModel()
 	            });
 
 	            this.workoutFormView = new WorkoutFormView({
 	                el: "#workout-form",
-	                model: new WorkoutModel()
+
+                    //the crated models are added to this collection
+	                collection: workoutsCollection
 	            });
 
 	            this.setFormView = new SetFormView({
@@ -62,14 +65,12 @@ define(["jquery",
 	        },
 
 	        home: function () {
-	            var workoutsView = this["workoutsView"];
 	            var self = this;
 	            $.mobile.loading("show");
 
-	            workoutsView.collection.fetch().done(function () {
+	            this.workoutsView.collection.fetch().done(function () {
 	                $.mobile.changePage("#workouts-view", { reverse: false, changeHash: false });
 	                
-	                //$("#workoutsListView").listview("refresh");
 	                $("#workouts-view").trigger("pagecreate");
 
 	                $(".wotActionsButton").click(function (event) {
@@ -84,49 +85,43 @@ define(["jquery",
 	        },
 
 	        createWorkout: function () {
-	            this.workoutFormView.model.clear();
 
+	            this.workoutFormView.changeModel(new WorkoutModel());
 	            this.workoutFormView.mode = "create";
 
-	            this.workoutFormView.render();
 	            $.mobile.changePage("#workout-form", { reverse: false, changeHash: false });
-
-	            //restyle the widgets in the template
-	            $("#workout-form").trigger("pagecreate");
+	            this.workoutFormView.render();
 	        },
 
 	        workoutDetails: function (id) {
 	            $.mobile.loading("show");
 	            var self = this;
 
-	            this.workoutDetailsView.model.fetch({ "id": id })
+	            var workoutModel = this.workoutsView.collection.get(id)
+	            workoutModel.setsCollection.fetch({ "workoutId": id })
                     .done(function () {
-                        self.workoutDetailsView.model.setsCollection.fetch({ "workoutId": id });
-                    })
-                    .done(function () {
-                        self.workoutDetailsView.render();
-	                    $.mobile.changePage("#workout-details", { reverse: false, changeHash: false });
+                        self.workoutDetailsView.changeModel(workoutModel);
 
-	                    //restyle the widgets in the template
-	                    $("#workout-details").trigger("pagecreate");
-	                    $.mobile.loading("hide");
-	                });
+                        $.mobile.changePage("#workout-details", { reverse: false, changeHash: false });
+                        self.workoutDetailsView.render();
+                        
+                        $.mobile.loading("hide");
+                    });
 	        },
 
 	        editWorkout: function (id) {
 	            $.mobile.loading("show");
-	            var self = this;
 
 	            this.workoutFormView.mode = "edit";
 
-	            this.workoutFormView.model.fetch({ "id": id }).done(function () {
-	                self.workoutFormView.render();
-	                $.mobile.changePage("#workout-form", { reverse: false, changeHash: false });
+	            var workoutModel = this.workoutsView.collection.get(id);
 
-	                //restyle the widgets in the template
-	                $("#workout-form").trigger("pagecreate");
-	                $.mobile.loading("hide");
-	            });
+	            this.workoutFormView.changeModel(workoutModel);
+
+	            $.mobile.changePage("#workout-form", { reverse: false, changeHash: false });
+	            this.workoutFormView.render();
+
+	            $.mobile.loading("hide");
 	        },
 
 	        createSet: function (id) {

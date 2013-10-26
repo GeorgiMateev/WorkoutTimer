@@ -2,13 +2,20 @@ define(["jquery", "backbone", "models/workoutModel"],
     function ($, Backbone, WorkoutModel) {
         var WorkoutDetailsView = Backbone.View.extend({
             initialize: function () {
-                if (this.model) {
-                    this.model.on("change", this.render, this);
-                }
             },
 
             events: {
                 "click #deleteWorkoutButton": function () { this.confirmDeleteWorkout() }
+            },
+
+            changeModel: function (newModel) {
+                this.model = newModel;
+
+                //Attach event to the new model
+            },
+
+            unbindModel:function () {
+                //Detach all events from the previous model
             },
 
             confirmDeleteWorkout: function () {
@@ -53,6 +60,9 @@ define(["jquery", "backbone", "models/workoutModel"],
                 if (jsonSets.length == 0) {
                     $("#startWorkoutButton").hide();
                 }
+
+                //restyle the widgets in the template
+                this.$el.trigger("pagecreate");
 
                 return this;
             }

@@ -26,6 +26,9 @@ define(["jquery",
 
 	            this.workoutDetailsView = new WorkoutDetailsView({
 	                el: "#workout-details",
+
+	                //if a model is deleted, it has to be removed from the collection
+	                collection: workoutsCollection
 	            });
 
 	            this.workoutFormView = new WorkoutFormView({
@@ -68,10 +71,19 @@ define(["jquery",
 	            var self = this;
 	            $.mobile.loading("show");
 
-	            this.workoutsView.collection.fetch().done(function () {
+	            var deferred = $.Deferred();
+
+	            if (!this.workoutsView.collection.isFetched) {
+	                this.workoutsView.collection.fetch().done(function () {
+	                    deferred.resolve();
+	                });
+	            }
+	            else deferred.resolve();
+
+	            deferred.done(function () {
 	                $.mobile.changePage("#workouts-view", { reverse: false, changeHash: false });
-	                
-	                $("#workouts-view").trigger("pagecreate");
+
+	                self.workoutsView.render();
 
 	                $(".wotActionsButton").click(function (event) {
 	                    console.log("actions button clicked");
@@ -80,7 +92,7 @@ define(["jquery",
 	                    $("#menu-" + id).popup("open", { transition: "slide" });
 	                });
 
-	                $.mobile.loading("hide");	                
+	                $.mobile.loading("hide");
 	            });
 	        },
 

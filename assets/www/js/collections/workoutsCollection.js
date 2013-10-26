@@ -2,6 +2,7 @@ define(["jquery", "backbone", "models/workoutModel", "data/storageManager"],
 	function ($, Backbone, WorkoutModel, StorageManager) {
 	    var WorkoutsCollection = Backbone.Collection.extend({
 	        initialize: function (models, options) {
+	            this.isFetched = false;
 	        },
 
 	        model: WorkoutModel,
@@ -13,8 +14,8 @@ define(["jquery", "backbone", "models/workoutModel", "data/storageManager"],
 	            var manager = new StorageManager();
 	            manager.getAllWorkouts(
                 function (result) {
-	                options.success(self, result, options);
-	                self.trigger("added");
+                    options.success(self, result, options);
+                    self.isFetched = true;
 	                deferred.resolve();
 	            },
                 function(error){

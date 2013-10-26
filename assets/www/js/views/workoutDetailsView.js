@@ -34,12 +34,15 @@ define(["jquery", "backbone", "models/workoutModel"],
             },
 
             deleteWorkout: function () {
+                var self = this;
+
                 $.mobile.loading("show");
 
                 var id = this.model.get("_id");
 
                 this.model.destroy({
                     success: function (model, deleteId, options) {
+                        self.collection.remove(model);
                         $.mobile.loading("hide");
                         window.app_router.navigate("", { trigger: true, replace: true });
                     },
